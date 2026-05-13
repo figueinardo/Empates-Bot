@@ -207,6 +207,7 @@ def obtener_partidos(liga):
         "regions": "eu",
         "markets": "h2h",
         "oddsFormat": "decimal",
+        "bookmakers": "pinnacle",
     }
     r = requests.get(url, params=params)
     if r.status_code != 200:
