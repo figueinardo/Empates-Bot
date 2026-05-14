@@ -1,1 +1,306 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOT EMPATES VERANO</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #12121a;
+    --border: #1e1e2e;
+    --green: #00ff88;
+    --red: #ff3355;
+    --blue: #00aaff;
+    --yellow: #ffcc00;
+    --text: #e0e0f0;
+    --muted: #666680;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s ease;
+  }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .stat-card:hover { border-color: var(--green); }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    opacity: 0.6;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.blue { color: var(--blue); }
+  .stat-value.yellow { color: var(--yellow); }
+  .stat-value.neutral { color: var(--text); }
+  .charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  @media (max-width: 640px) { .charts { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .chart-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .table-section { animation: fadeUp 0.6s ease 0.3s both; }
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .table-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--text);
+  }
+  .badge {
+    background: var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: auto;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
+  thead tr { border-bottom: 1px solid var(--border); }
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.62rem;
+    white-space: nowrap;
+  }
+  tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  td { padding: 11px 14px; white-space: nowrap; }
+  .result-w { color: var(--green); font-weight: 700; background: rgba(0,255,136,0.08); padding: 2px 8px; border-radius: 3px; }
+  .result-l { color: var(--red); font-weight: 700; background: rgba(255,51,85,0.08); padding: 2px 8px; border-radius: 3px; }
+  .result-v { color: var(--muted); font-weight: 700; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 3px; }
+  .result-pending { color: var(--yellow); background: rgba(255,204,0,0.08); padding: 2px 8px; border-radius: 3px; font-size: 0.6rem; letter-spacing: 0.1em; }
+  .profit-pos { color: var(--green); }
+  .profit-neg { color: var(--red); }
+  .empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.1em; }
+  .loading { text-align: center; padding: 80px 20px; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.2em; animation: pulse 1.5s ease infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .updated { text-align: center; color: var(--muted); font-size: 0.6rem; letter-spacing: 0.15em; margin-top: 32px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>BOT EMPATES VERANO</h1>
+    <p>Dashboard de resultados · Pinnacle Reference</p>
+  </header>
+  <div id="app"><div class="loading">CARGANDO PICKS...</div></div>
+</div>
+<script>
+async function loadPicks() {
+  try {
+    const r = await fetch('picks.json?nocache=' + Date.now());
+    if (!r.ok) throw new Error('No picks');
+    return await r.json();
+  } catch (e) { return []; }
+}
+function calcStats(picks) {
+  const resueltos = picks.filter(p => p.profit !== null && p.profit !== undefined);
+  const pendientes = picks.filter(p => p.profit === null || p.profit === undefined);
+  const wins = resueltos.filter(p => p.profit > 0).length;
+  const losses = resueltos.filter(p => p.profit < 0).length;
+  const voids = resueltos.filter(p => p.profit === 0).length;
+  const profit = resueltos.reduce((s, p) => s + p.profit, 0);
+  const yield_pct = resueltos.length ? (profit / resueltos.length) * 100 : 0;
+  let racha = 0;
+  for (let i = resueltos.length - 1; i >= 0; i--) {
+    if (resueltos[i].profit > 0) racha++;
+    else break;
+  }
+  let acum = 0;
+  const cumProfit = resueltos.map(p => { acum += p.profit; return Math.round(acum * 100) / 100; });
+  const yieldArr = resueltos.map((_, i) => Math.round((cumProfit[i] / (i + 1)) * 10000) / 100);
+  return { resueltos, pendientes, wins, losses, voids, profit, yield_pct, racha, cumProfit, yieldArr };
+}
+function resultTag(p) {
+  if (p.resultado === 'W') return '<span class="result-w">W</span>';
+  if (p.resultado === 'L') return '<span class="result-l">L</span>';
+  if (p.resultado === 'V') return '<span class="result-v">V</span>';
+  return '<span class="result-pending">PENDIENTE</span>';
+}
+function profitCell(p) {
+  if (p.profit === null || p.profit === undefined) return '<span style="color:var(--muted)">—</span>';
+  const cls = p.profit > 0 ? 'profit-pos' : p.profit < 0 ? 'profit-neg' : '';
+  const sign = p.profit > 0 ? '+' : '';
+  return `<span class="${cls}">${sign}${p.profit.toFixed(2)}u</span>`;
+}
+function render(picks) {
+  const s = calcStats(picks);
+  const profitColor = s.profit >= 0 ? 'green' : 'red';
+  const yieldColor = s.yield_pct >= 0 ? 'green' : 'red';
+  document.getElementById('app').innerHTML = `
+    <div class="stats">
+      <div class="stat-card"><div class="stat-label">Total Picks</div><div class="stat-value neutral">${picks.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Wins</div><div class="stat-value green">${s.wins}</div></div>
+      <div class="stat-card"><div class="stat-label">Losses</div><div class="stat-value red">${s.losses}</div></div>
+      <div class="stat-card"><div class="stat-label">Profit</div><div class="stat-value ${profitColor}">${s.profit >= 0 ? '+' : ''}${s.profit.toFixed(2)}u</div></div>
+      <div class="stat-card"><div class="stat-label">Yield</div><div class="stat-value ${yieldColor}">${s.yield_pct >= 0 ? '+' : ''}${s.yield_pct.toFixed(1)}%</div></div>
+      <div class="stat-card"><div class="stat-label">Racha</div><div class="stat-value yellow">${s.racha}🔥</div></div>
+    </div>
+    <div class="charts">
+      <div class="chart-card"><div class="chart-title">📈 Profit Acumulado</div><canvas id="chartProfit" height="180"></canvas></div>
+      <div class="chart-card"><div class="chart-title">📊 Yield %</div><canvas id="chartYield" height="180"></canvas></div>
+    </div>
+    <div class="table-section">
+      <div class="table-header">
+        <div class="table-title">HISTORIAL DE PICKS</div>
+        <div class="badge">${s.pendientes.length} pendientes</div>
+      </div>
+      <div class="table-wrap">
+        ${picks.length === 0 ? '<div class="empty">NO HAY PICKS AÚN</div>' : `
+        <table>
+          <thead><tr><th>#</th><th>Fecha</th><th>Liga</th><th>Partido</th><th>Cuota X</th><th>Resultado</th><th>Profit</th></tr></thead>
+          <tbody>${[...picks].reverse().map(p => `
+            <tr>
+              <td style="color:var(--muted)">${p.id}</td>
+              <td style="color:var(--muted)">${p.fecha}</td>
+              <td>${p.liga}</td>
+              <td>${p.home} vs ${p.away}</td>
+              <td style="color:var(--yellow)">${p.cuota.toFixed(2)}</td>
+              <td>${resultTag(p)}</td>
+              <td>${profitCell(p)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+    </div>
+    <div class="updated">Actualizado · ${new Date().toLocaleString('es-ES')}</div>
+  `;
+  if (s.resueltos.length > 0) {
+    const labels = s.resueltos.map((_, i) => i + 1);
+    const opts = {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#666680', font: { family: 'Space Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#666680', font: { family: 'Space Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+      }
+    };
+    new Chart(document.getElementById('chartProfit'), {
+      type: 'line',
+      data: { labels, datasets: [{ data: s.cumProfit, borderColor: '#00ff88', backgroundColor: 'rgba(0,255,136,0.08)', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#00ff88' }] },
+      options: opts
+    });
+    new Chart(document.getElementById('chartYield'), {
+      type: 'line',
+      data: { labels, datasets: [{ data: s.yieldArr, borderColor: '#00aaff', backgroundColor: 'rgba(0,170,255,0.08)', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#00aaff' }] },
+      options: opts
+    });
+  }
+}
+loadPicks().then(render);
+</script>
+</body>
+</html>
