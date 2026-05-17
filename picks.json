@@ -5,7 +5,7 @@
     "liga": "🇺🇸 MLS",
     "home": "DC United",
     "away": "Chicago Fire",
-    "cuota": 3.50,
+    "cuota": 3.5,
     "fav": 0,
     "resultado": "L",
     "profit": -1
@@ -16,7 +16,7 @@
     "liga": "🇺🇸 MLS",
     "home": "New England Revolution",
     "away": "Nashville SC",
-    "cuota": 3.40,
+    "cuota": 3.4,
     "fav": 0,
     "resultado": "L",
     "profit": -1
@@ -31,5 +31,38 @@
     "fav": 0,
     "resultado": "L",
     "profit": -1
+  },
+  {
+    "id": 4,
+    "fecha": "2026-05-17",
+    "liga": "🇧🇷 Brasileirao",
+    "home": "Botafogo",
+    "away": "Corinthians",
+    "cuota": 3.26,
+    "fav": 2.41,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 5,
+    "fecha": "2026-05-17",
+    "liga": "🇧🇷 Brasileirao",
+    "home": "Chapecoense",
+    "away": "Remo",
+    "cuota": 3.19,
+    "fav": 2.55,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 6,
+    "fecha": "2026-05-17",
+    "liga": "🇧🇷 Brasileirao",
+    "home": "Atletico Paranaense",
+    "away": "Flamengo",
+    "cuota": 3.32,
+    "fav": 2.26,
+    "resultado": null,
+    "profit": null
   }
 ]
