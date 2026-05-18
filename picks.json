@@ -139,8 +139,8 @@
     "away": "Corinthians",
     "cuota": 3.26,
     "fav": 0,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   },
   {
     "id": 14,
@@ -150,8 +150,8 @@
     "away": "Remo",
     "cuota": 3.10,
     "fav": 0,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   },
   {
     "id": 15,
@@ -161,7 +161,7 @@
     "away": "Flamengo",
     "cuota": 3.35,
     "fav": 0,
-    "resultado": null,
-    "profit": null
+    "resultado": "W",
+    "profit": 2.35
   }
 ]
