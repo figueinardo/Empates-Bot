@@ -5,7 +5,7 @@
     "liga": "🇺🇸 MLS",
     "home": "DC United",
     "away": "Chicago Fire",
-    "cuota": 3.50,
+    "cuota": 3.5,
     "fav": 0,
     "resultado": "L",
     "profit": -1
@@ -16,7 +16,7 @@
     "liga": "🇺🇸 MLS",
     "home": "New England Revolution",
     "away": "Nashville SC",
-    "cuota": 3.40,
+    "cuota": 3.4,
     "fav": 0,
     "resultado": "L",
     "profit": -1
@@ -104,10 +104,10 @@
     "liga": "🇺🇸 MLS",
     "home": "New York Red Bulls",
     "away": "New York City FC",
-    "cuota": 3.80,
+    "cuota": 3.8,
     "fav": 0,
     "resultado": "W",
-    "profit": 2.80
+    "profit": 2.8
   },
   {
     "id": 11,
@@ -148,7 +148,7 @@
     "liga": "🇧🇷 Brasileirao",
     "home": "Chapecoense",
     "away": "Remo",
-    "cuota": 3.10,
+    "cuota": 3.1,
     "fav": 0,
     "resultado": "L",
     "profit": -1
@@ -163,5 +163,38 @@
     "fav": 0,
     "resultado": "W",
     "profit": 2.35
+  },
+  {
+    "id": 16,
+    "fecha": "2026-05-23",
+    "liga": "🇫🇮 Veikkausliiga",
+    "home": "SJK Seinäjoki",
+    "away": "AC Oulu",
+    "cuota": 3.35,
+    "fav": 2.43,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 17,
+    "fecha": "2026-05-23",
+    "liga": "🇧🇷 Brasileirao",
+    "home": "Vitoria",
+    "away": "Internacional",
+    "cuota": 3.17,
+    "fav": 2.49,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 18,
+    "fecha": "2026-05-23",
+    "liga": "🇧🇷 Brasileirao",
+    "home": "Mirassol",
+    "away": "Fluminense",
+    "cuota": 3.17,
+    "fav": 2.63,
+    "resultado": null,
+    "profit": null
   }
 ]
