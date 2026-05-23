@@ -1,7 +1,7 @@
 import requests
 import os
 import json
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
 ODDS_API_KEY = os.environ["ODDS_API_KEY"]
 TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
@@ -20,7 +20,6 @@ LIGAS = [
     "soccer_sweden_allsvenskan",
     "soccer_norway_eliteserien",
     "soccer_korea_kleague1",
-    "soccer_uruguay_primera_division",
     "soccer_australia_aleague",
 ]
 
@@ -35,7 +34,6 @@ NOMBRES_LIGAS = {
     "soccer_sweden_allsvenskan": "🇸🇪 Allsvenskan",
     "soccer_norway_eliteserien": "🇳🇴 Eliteserien",
     "soccer_korea_kleague1": "🇰🇷 K-League 1",
-    "soccer_uruguay_primera_division": "🇺🇾 Uruguay Primera",
     "soccer_australia_aleague": "🇦🇺 A-League",
 }
 
@@ -71,29 +69,22 @@ def guardar_picks(picks):
 
 
 def commit_picks():
-    """Sube el picks.json actualizado al repo de GitHub."""
     try:
         token = os.environ.get("GH_TOKEN", "")
         if not token:
             print("Sin GH_TOKEN, no se puede hacer commit")
             return
-
         with open(PICKS_FILE, "rb") as f:
             import base64
             contenido = base64.b64encode(f.read()).decode()
-
-        # Obtener SHA actual del archivo
         headers = {
             "Authorization": f"token {token}",
             "Accept": "application/vnd.github.v3+json"
         }
         repo = "figueinardo/Empates-Bot"
         url = f"https://api.github.com/repos/{repo}/contents/{PICKS_FILE}"
-
         r = requests.get(url, headers=headers)
         sha = r.json().get("sha", "") if r.status_code == 200 else ""
-
-        # Hacer commit
         payload = {
             "message": f"bot: actualizar picks {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M')}",
             "content": contenido,
@@ -149,13 +140,11 @@ def actualizar_resultados():
     pendientes = [p for p in picks if p.get("resultado") is None]
     if not pendientes:
         return []
-
     ligas_pendientes = {}
     for pick in pendientes:
         liga_key = next((k for k, v in NOMBRES_LIGAS.items() if v == pick["liga"]), None)
         if liga_key and liga_key not in ligas_pendientes:
             ligas_pendientes[liga_key] = obtener_scores(liga_key)
-
     actualizados = []
     for pick in picks:
         if pick.get("resultado") is not None:
@@ -171,11 +160,9 @@ def actualizar_resultados():
                 pick["resultado"] = resultado
                 pick["profit"] = round(pick["cuota"] - 1, 2) if resultado == "W" else -1
                 actualizados.append(pick)
-
     if actualizados:
         guardar_picks(picks)
         commit_picks()
-
     return actualizados
 
 
@@ -185,22 +172,18 @@ def generar_grafica():
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         import io
-
         picks = cargar_picks()
         resueltos = [p for p in picks if p["profit"] is not None]
         if len(resueltos) < 2:
             return None
-
         profits = [p["profit"] for p in resueltos]
         cum_profit = []
         acum = 0
         for p in profits:
             acum += p
             cum_profit.append(round(acum, 2))
-
         n = len(resueltos)
         yields = [round((cum_profit[i] / (i + 1)) * 100, 2) for i in range(n)]
-
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 7), facecolor="#1a1a2e")
         for ax in [ax1, ax2]:
             ax.set_facecolor("#16213e")
@@ -209,7 +192,6 @@ def generar_grafica():
             ax.xaxis.label.set_color("white")
             for spine in ax.spines.values():
                 spine.set_edgecolor("#444")
-
         x = list(range(1, n + 1))
         ax1.plot(x, cum_profit, color="#00ff88", linewidth=2, marker="o", markersize=3)
         ax1.axhline(0, color="#666", linestyle="--", linewidth=0.8)
@@ -217,30 +199,25 @@ def generar_grafica():
         ax1.fill_between(x, cum_profit, 0, where=[v < 0 for v in cum_profit], alpha=0.2, color="#ff4444")
         ax1.set_title("📈 Beneficio Acumulado (u)", color="white", fontsize=12, pad=8)
         ax1.set_ylabel("Unidades", color="white")
-
         ax2.plot(x, yields, color="#00aaff", linewidth=2, marker="o", markersize=3)
         ax2.axhline(0, color="#666", linestyle="--", linewidth=0.8)
         ax2.set_title("📊 Yield (%)", color="white", fontsize=12, pad=8)
         ax2.set_ylabel("Yield %", color="white")
         ax2.set_xlabel("Nº de picks", color="white")
-
         wins = sum(1 for p in resueltos if p["profit"] and p["profit"] > 0)
         losses = sum(1 for p in resueltos if p["profit"] and p["profit"] < 0)
         voids = sum(1 for p in resueltos if p["profit"] == 0)
-
         fig.suptitle(
             f"BOT EMPATES VERANO  |  {n} picks  |  {wins}W {losses}L {voids}V  |  "
             f"Profit: {cum_profit[-1]:+.2f}u  |  Yield: {yields[-1]:+.2f}%",
             color="white", fontsize=11, y=0.98
         )
         plt.tight_layout(rect=[0, 0, 1, 0.96])
-
         buf = io.BytesIO()
         plt.savefig(buf, format="png", dpi=130, bbox_inches="tight")
         buf.seek(0)
         plt.close()
         return buf.read()
-
     except Exception as e:
         print(f"Error generando gráfica: {e}")
         return None
@@ -252,11 +229,9 @@ def resumen_stats():
     pendientes = [p for p in picks if p["profit"] is None]
     if not resueltos:
         return None
-
     total = len(resueltos)
     wins = sum(1 for p in resueltos if p["profit"] > 0)
     losses = sum(1 for p in resueltos if p["profit"] < 0)
-    voids = sum(1 for p in resueltos if p["profit"] == 0)
     profit = sum(p["profit"] for p in resueltos)
     yield_pct = (profit / total) * 100 if total else 0
     racha = 0
@@ -265,14 +240,13 @@ def resumen_stats():
             racha += 1
         else:
             break
-
     return (
         f"📊 <b>RESUMEN BOT EMPATES</b>\n\n"
         f"Picks resueltos: <b>{total}</b>\n"
-        f"✅ Wins: <b>{wins}</b>  ❌ Losses: <b>{losses}</b>  ➖ Void: <b>{voids}</b>\n"
+        f"✅ Wins: <b>{wins}</b>  ❌ Losses: <b>{losses}</b>\n"
         f"💰 Profit: <b>{profit:+.2f}u</b>\n"
         f"📈 Yield: <b>{yield_pct:+.2f}%</b>\n"
-        f"🔥 Racha actual: <b>{racha} wins seguidos</b>\n"
+        f"🔥 Racha: <b>{racha}</b>\n"
         f"⏳ Pendientes: <b>{len(pendientes)}</b>"
     )
 
@@ -293,7 +267,6 @@ def obtener_partidos(liga):
         "regions": "eu",
         "markets": "h2h",
         "oddsFormat": "decimal",
-        "bookmakers": "pinnacle",
     }
     r = requests.get(url, params=params)
     if r.status_code != 200:
@@ -305,48 +278,38 @@ def obtener_partidos(liga):
 def analizar_partido(partido, nombre_liga):
     if not es_hoy(partido.get("commence_time", "")):
         return None, None
-
     bookmakers = partido.get("bookmakers", [])
     if not bookmakers:
         return None, None
-
     h2h = None
     for bm in bookmakers:
         mercados = bm.get("markets", [])
         h2h = next((m for m in mercados if m["key"] == "h2h"), None)
         if h2h:
             break
-
     if not h2h:
         return None, None
-
     outcomes = h2h.get("outcomes", [])
     cuotas = {o["name"]: o["price"] for o in outcomes}
-
     home = partido["home_team"]
     away = partido["away_team"]
     empate = cuotas.get("Draw", 0)
     c_home = cuotas.get(home, 0)
     c_away = cuotas.get(away, 0)
-
     if empate < MIN_CUOTA_EMPATE:
         return None, None
-
     favorito = min(c_home, c_away)
     if favorito < MIN_CUOTA_FAVORITO:
         return None, None
-
     hora = datetime.fromisoformat(
         partido["commence_time"].replace("Z", "+00:00")
     ).strftime("%H:%M UTC")
-
     texto = (
         f"⚽ <b>{nombre_liga}</b>\n"
         f"🏟 {home} vs {away}\n"
         f"🕐 Hoy {hora}\n"
         f"1: {c_home:.2f}  |  X: <b>{empate:.2f}</b>  |  2: {c_away:.2f}"
     )
-
     pick_data = {
         "liga": nombre_liga,
         "home": home,
@@ -354,12 +317,10 @@ def analizar_partido(partido, nombre_liga):
         "cuota": empate,
         "fav": favorito,
     }
-
     return texto, pick_data
 
 
 def main():
-    # 1. Actualizar resultados pendientes
     actualizados = actualizar_resultados()
     if actualizados:
         for pick in actualizados:
@@ -371,7 +332,6 @@ def main():
                 f"({'+'if pick['profit'] > 0 else ''}{pick['profit']:.2f}u)"
             )
             send_telegram(msg)
-
         resumen = resumen_stats()
         if resumen:
             send_telegram(resumen)
@@ -379,14 +339,11 @@ def main():
             if img:
                 send_photo_telegram(img, "📊 Gráfica actualizada")
 
-    # 2. Buscar nuevas alertas
     picks = cargar_picks()
     picks_hoy = [(p["home"], p["away"]) for p in picks
                  if p["fecha"] == datetime.now(timezone.utc).strftime("%Y-%m-%d")]
-
     alertas = []
     nuevos_picks = []
-
     for liga in LIGAS:
         partidos = obtener_partidos(liga)
         nombre = NOMBRES_LIGAS.get(liga, liga)
@@ -397,7 +354,6 @@ def main():
                 if key not in picks_hoy:
                     alertas.append(alerta)
                     nuevos_picks.append(pick_data)
-
     if alertas:
         for pd in nuevos_picks:
             picks.append({
@@ -413,7 +369,6 @@ def main():
             })
         guardar_picks(picks)
         commit_picks()
-
         cabecera = (
             f"🚨 <b>EMPATES DEL DÍA</b> — "
             f"{datetime.now(timezone.utc).strftime('%d/%m/%Y')}\n\n"
