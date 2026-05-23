@@ -172,8 +172,8 @@
     "away": "AC Oulu",
     "cuota": 3.35,
     "fav": 2.43,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   },
   {
     "id": 17,
@@ -205,7 +205,7 @@
     "away": "Chengdu Rongcheng FC",
     "cuota": 3.3,
     "fav": 2.3,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   }
 ]
