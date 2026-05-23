@@ -196,5 +196,16 @@
     "fav": 2.63,
     "resultado": null,
     "profit": null
+  },
+  {
+    "id": 19,
+    "fecha": "2026-05-23",
+    "liga": "🇨🇳 Superliga China",
+    "home": "Dalian Yingbo",
+    "away": "Chengdu Rongcheng FC",
+    "cuota": 3.3,
+    "fav": 2.3,
+    "resultado": null,
+    "profit": null
   }
 ]
