@@ -207,5 +207,16 @@
     "fav": 2.3,
     "resultado": "L",
     "profit": -1
+  },
+  {
+    "id": 20,
+    "fecha": "2026-05-24",
+    "liga": "🇨🇳 Superliga China",
+    "home": "Zhejiang",
+    "away": "Liaoning Tieren FC",
+    "cuota": 3.52,
+    "fav": 2.42,
+    "resultado": null,
+    "profit": null
   }
 ]
