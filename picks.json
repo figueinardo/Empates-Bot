@@ -218,5 +218,38 @@
     "fav": 2.42,
     "resultado": "L",
     "profit": -1
+  },
+  {
+    "id": 21,
+    "fecha": "2026-05-25",
+    "liga": "🇧🇷 Brasileirao",
+    "home": "Coritiba",
+    "away": "Bahia",
+    "cuota": 3.27,
+    "fav": 2.6,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 22,
+    "fecha": "2026-05-25",
+    "liga": "🇸🇪 Allsvenskan",
+    "home": "IF Elfsborg",
+    "away": "BK Hacken",
+    "cuota": 3.32,
+    "fav": 2.37,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 23,
+    "fecha": "2026-05-25",
+    "liga": "🇸🇪 Allsvenskan",
+    "home": "IFK Goteborg",
+    "away": "Mjällby AIF",
+    "cuota": 3.15,
+    "fav": 2.55,
+    "resultado": null,
+    "profit": null
   }
 ]
