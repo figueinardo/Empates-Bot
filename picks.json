@@ -260,8 +260,8 @@
     "away": "Beijing FC",
     "cuota": 3.5,
     "fav": 2.4,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   },
   {
     "id": 25,
@@ -271,8 +271,8 @@
     "away": "Qingdao Hainiu FC",
     "cuota": 3.59,
     "fav": 2.2,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   },
   {
     "id": 26,
@@ -282,8 +282,8 @@
     "away": "FC Inter Turku",
     "cuota": 3.25,
     "fav": 2.35,
-    "resultado": null,
-    "profit": null
+    "resultado": "W",
+    "profit": 2.25
   },
   {
     "id": 27,
@@ -293,8 +293,8 @@
     "away": "SJK Seinäjoki",
     "cuota": 3.5,
     "fav": 2.23,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   },
   {
     "id": 28,
@@ -304,7 +304,7 @@
     "away": "VPS Vaasa",
     "cuota": 3.15,
     "fav": 2.3,
-    "resultado": null,
-    "profit": null
+    "resultado": "L",
+    "profit": -1
   }
 ]
