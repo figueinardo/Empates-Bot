@@ -251,5 +251,60 @@
     "fav": 2.55,
     "resultado": null,
     "profit": null
+  },
+  {
+    "id": 24,
+    "fecha": "2026-05-30",
+    "liga": "🇨🇳 Superliga China",
+    "home": "Chongqing Tonglianglong FC",
+    "away": "Beijing FC",
+    "cuota": 3.5,
+    "fav": 2.4,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 25,
+    "fecha": "2026-05-30",
+    "liga": "🇨🇳 Superliga China",
+    "home": "Shenzhen Peng City FC",
+    "away": "Qingdao Hainiu FC",
+    "cuota": 3.59,
+    "fav": 2.2,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 26,
+    "fecha": "2026-05-30",
+    "liga": "🇫🇮 Veikkausliiga",
+    "home": "KuPS Kuopio",
+    "away": "FC Inter Turku",
+    "cuota": 3.25,
+    "fav": 2.35,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 27,
+    "fecha": "2026-05-30",
+    "liga": "🇫🇮 Veikkausliiga",
+    "home": "IF Gnistan",
+    "away": "SJK Seinäjoki",
+    "cuota": 3.5,
+    "fav": 2.23,
+    "resultado": null,
+    "profit": null
+  },
+  {
+    "id": 28,
+    "fecha": "2026-05-30",
+    "liga": "🇫🇮 Veikkausliiga",
+    "home": "TPS Turku",
+    "away": "VPS Vaasa",
+    "cuota": 3.15,
+    "fav": 2.3,
+    "resultado": null,
+    "profit": null
   }
 ]
