@@ -317,5 +317,16 @@
     "fav": 2.43,
     "resultado": "L",
     "profit": -1
+  },
+  {
+    "id": 30,
+    "fecha": "2026-06-13",
+    "liga": "🇫🇮 Veikkausliiga",
+    "home": "FC Lahti",
+    "away": "SJK Seinäjoki",
+    "cuota": 3.3,
+    "fav": 2.2,
+    "resultado": null,
+    "profit": null
   }
 ]
